@@ -27,7 +27,7 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cigar);
 
-        tempTextView.setVisibility(View.INVISIBLE);
+
         tempTextView =  findViewById(R.id.tempTextView);
         tempTextView.setBackgroundColor(Color.rgb(224,224,224));
         tempTextView.setTextColor(Color.rgb(64,64,64));
@@ -46,7 +46,7 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
 
         if (switch1.isChecked()){
 
-            tempTextView.setVisibility(View.VISIBLE);
+            tempTextView.setText(temp+"degree");
         }
         else {
             tempTextView.setText("");
