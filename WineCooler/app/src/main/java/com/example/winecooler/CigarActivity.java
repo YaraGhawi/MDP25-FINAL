@@ -18,11 +18,12 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
     Switch switch2;
     static TextView humTextView;
     int hum=80;
-    MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
+
     //System.out.println("MQTT STARTED");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cigar);
 
