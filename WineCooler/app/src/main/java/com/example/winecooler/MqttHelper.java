@@ -10,6 +10,8 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -50,7 +52,8 @@ public class MqttHelper {
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Mqtt", mqttMessage.toString());
                 CigarActivity.receiveData(mqttMessage.toString());
-//                Log.w("Mqtt", "ejja message");
+//                WineActivity.receiveData(mqttMessage.toString());
+
             }
 
             @Override

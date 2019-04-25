@@ -8,18 +8,18 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 
 public class CigarActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     Switch switch1;
     static TextView tempTextView;
-    String temp;
+    static int temp;
 
-    Switch switch2;
     static TextView humTextView;
-    int hum=80;
+    static int hum;
 
-    //System.out.println("MQTT STARTED");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,42 +29,36 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
 
 
         tempTextView =  findViewById(R.id.tempTextView);
-        tempTextView.setBackgroundColor(Color.rgb(224,224,224));
-        tempTextView.setTextColor(Color.rgb(64,64,64));
+
         switch1 = findViewById(R.id.switch1);
         switch1.setOnCheckedChangeListener(this);
 
         humTextView =  findViewById(R.id.humTextView);
-        humTextView.setBackgroundColor(Color.rgb(224,224,224));
-        humTextView.setTextColor(Color.rgb(64,64,64));
-        switch2 = findViewById(R.id.switch2);
-        switch2.setOnCheckedChangeListener(this);
+
+
 
     }
     @Override
     public void onCheckedChanged(CompoundButton compoundButton , boolean b){
 
         if (switch1.isChecked()){
-
-            tempTextView.setText(temp+"degree");
+            tempTextView.setText(this.temp+" degree");
+            humTextView.setText(this.temp +"%");
         }
+
         else {
-            tempTextView.setText("");
-        }
-
-
-        if (switch2.isChecked()){
-
-            humTextView.setText(hum+" %");
-        }
-        else {
-            humTextView.setText("");
+            tempTextView.setText("Temperature");
+            humTextView.setText("Humidity");
         }
 
     }
+
     public static void receiveData(String msg){
-       tempTextView.setText(msg);
-       humTextView.setText(msg);
+        //System.out.println(msg);
+        temp=Integer.valueOf(msg);
+        //push notification
+//       tempTextView.setText(msg);
+//       humTextView.setText(msg);
     }
 }
 

@@ -5,37 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WineActivity">
-
-
     <TextView
         android:id="@+id/tempTextView"
         android:layout_width="177dp"
-        android:layout_height="46dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="152dp"
+        android:background="@drawable/rounded_form"
+        android:gravity="center"
         android:text="Temperature"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.88"
+
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.265" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/humTextView"
         android:layout_width="172dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="240dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/rounded_form"
+        android:gravity="center"
         android:text="Humidity"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tempTextView"
         tools:ignore="MissingConstraints" />
 
     <Switch
@@ -44,36 +46,13 @@
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:thumb="@drawable/rectangle_thumb"
         android:track="@drawable/rectangle_track"
-        app:layout_constraintEnd_toStartOf="@+id/tempTextView"
-        app:layout_constraintHorizontal_bias="0.382"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="65dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="432dp"
-        android:thumb="@drawable/rectangle_thumb"
-        android:track="@drawable/rectangle_track"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/humTextView"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/humTextView" />
 
 </android.support.constraint.ConstraintLayout>
