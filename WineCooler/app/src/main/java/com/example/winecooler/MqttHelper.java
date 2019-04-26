@@ -52,7 +52,7 @@ public class MqttHelper {
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Mqtt", mqttMessage.toString());
                 CigarActivity.receiveData(mqttMessage.toString());
-//                WineActivity.receiveData(mqttMessage.toString());
+                WineActivity.receiveData(mqttMessage.toString());
 
             }
 
