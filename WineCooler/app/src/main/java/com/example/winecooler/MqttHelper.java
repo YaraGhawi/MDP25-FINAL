@@ -10,6 +10,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +24,7 @@ public class MqttHelper {
     final String subscriptionTopic = "winecooler";
     final String username = "iotleb";
     final String password = "iotleb";
+    JSONObject myjson = new JSONObject();
 
     public MqttHelper(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
@@ -30,17 +32,7 @@ public class MqttHelper {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w("mqtt", s);
-
-
-//                try {
-//                    MqttMessage message = new MqttMessage("Gayel is connected".getBytes());
-//                    message.setQos(2);
-//                    message.setRetained(false);
-//                    mqttAndroidClient.publish(subscriptionTopic, message);
-//                } catch(Exception e){
-//                    e.printStackTrace();
-//                }
-
+                
             }
 
             @Override
@@ -51,8 +43,16 @@ public class MqttHelper {
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Mqtt", mqttMessage.toString());
-                CigarActivity.receiveData(mqttMessage.toString());
-                WineActivity.receiveData(mqttMessage.toString());
+
+                String payload = new String(mqttMessage.getPayload());
+//
+//                Parse the payload in Json Format
+                JSONObject contObj = new JSONObject(payload);
+                Log.w("Mqtt", String.valueOf(contObj));
+
+                myjson = contObj;
+                CigarActivity.receiveData(contObj);
+                WineActivity.receiveData(contObj);
 
             }
 
