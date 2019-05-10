@@ -48,6 +48,7 @@ public class MqttHelper {
                 Log.w("Mqtt", String.valueOf(contObj));
 
                 myjson = contObj;
+
                 CigarActivity.receiveData(contObj);
                 WineActivity.receiveData(contObj);
             }

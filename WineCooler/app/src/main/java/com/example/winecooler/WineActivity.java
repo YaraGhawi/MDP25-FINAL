@@ -24,6 +24,11 @@ public class WineActivity extends AppCompatActivity  {
     static TextView humTextView;
     static int hum;
 
+    static Thread t = new Thread();
+    static Thread x = new Thread();
+
+    static boolean state=true;
+
     public class LiveReceiver implements Runnable {
 
         private int var;
@@ -33,10 +38,11 @@ public class WineActivity extends AppCompatActivity  {
         }
 
         public void run() {
-            while(true) {
+           while(state){
                 MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
                 try {
                     if (mqttHelper.myjson != null) {
+                        System.out.println(">>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>>>>");
                         receiveData(mqttHelper.myjson);
                     }
                 }
@@ -48,8 +54,9 @@ public class WineActivity extends AppCompatActivity  {
                 }
                 catch (InterruptedException e) { System.out.println("rip 2 "); }
             }
+            }
         }
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +78,17 @@ public class WineActivity extends AppCompatActivity  {
         LiveReceiver liveReceiver = new LiveReceiver(6);
         Thread t = new Thread(liveReceiver);
         t.start();
+
+        MyRunnable myRunnable = new MyRunnable(6);
+        Thread x = new Thread(myRunnable);
+        x.start();
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            state = false;
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -99,12 +112,9 @@ public class WineActivity extends AppCompatActivity  {
     public static void receiveData(JSONObject msg) throws JSONException {
         System.out.println(msg);
 
-        MyRunnable myRunnable = new MyRunnable(6);
-        Thread t = new Thread(myRunnable);
-        t.start();
-
         temp = Integer.valueOf((String) msg.get("WineTemp"));
         hum = Integer.valueOf((String) msg.get("WineHum"));
+        System.out.println("----------------- the value of temp is "+temp + " and the value of humidity is "+ hum);
     }
 
     public static class MyRunnable implements Runnable {
@@ -115,7 +125,9 @@ public class WineActivity extends AppCompatActivity  {
             this.var = var;
         }
         public void run() {
-            while(true) {
+            while(state) {
+
+                System.out.println("----------------- the value of temp is "+temp + " and the value of humidity is "+ hum);
                 tempTextView.setText(temp + " °C");
                 humTextView.setText(hum + " %");
 

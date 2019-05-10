@@ -21,12 +21,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button wineButton= (Button)findViewById(R.id.wineButton);
         Button cigarButton= (Button)findViewById(R.id.cigarButton);
 
         wineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WineActivity.state = true;
                 startActivity(new Intent(MainActivity.this, WineActivity.class));
             }
         });
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         cigarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CigarActivity.state = true;
                 startActivity(new Intent(MainActivity.this, CigarActivity.class));
             }
         });

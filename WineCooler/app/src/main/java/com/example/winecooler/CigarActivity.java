@@ -30,6 +30,10 @@ public class CigarActivity extends AppCompatActivity  {
 
     static TextView humTextView;
     static int hum;
+    static Thread t = new Thread();
+    static Thread x = new Thread();
+
+    static boolean state = true;
 
     public class LiveReceiver implements Runnable {
 
@@ -40,7 +44,7 @@ public class CigarActivity extends AppCompatActivity  {
         }
 
         public void run() {
-            while(true) {
+            while(state) {
                 MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
                 try {
                     if (mqttHelper.myjson != null) {
@@ -76,6 +80,11 @@ public class CigarActivity extends AppCompatActivity  {
         LiveReceiver liveReceiver = new LiveReceiver(6);
         Thread t = new Thread(liveReceiver);
         t.start();
+
+        MyRunnable myRunnable = new MyRunnable(6);
+        Thread x = new Thread(myRunnable);
+        x.start();
+
     }
 //        try {
 //            System.out.println("i am here");
@@ -103,6 +112,7 @@ public class CigarActivity extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            state = false;
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -111,10 +121,6 @@ public class CigarActivity extends AppCompatActivity  {
 
     public static void receiveData(JSONObject msg) throws JSONException {
         System.out.println(msg);
-
-        MyRunnable myRunnable = new MyRunnable(6);
-        Thread t = new Thread(myRunnable);
-        t.start();
 
         temp = Integer.valueOf((String) msg.get("CigTemp"));
         hum = Integer.valueOf((String) msg.get("CigHum"));
@@ -128,7 +134,7 @@ public class CigarActivity extends AppCompatActivity  {
             this.var = var;
         }
         public void run() {
-            while(true) {
+            while(state) {
                 tempTextView.setText(temp + " °C");
                 humTextView.setText(hum + " %");
 
