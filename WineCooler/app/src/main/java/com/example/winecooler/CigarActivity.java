@@ -3,6 +3,7 @@ package com.example.winecooler;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -21,9 +22,9 @@ import java.util.BitSet;
 import java.util.Iterator;
 
 
-public class CigarActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class CigarActivity extends AppCompatActivity  {
 
-    Switch switch1;
+   //Switch switch1;
     static TextView tempTextView;
     static int temp;
 
@@ -54,27 +55,28 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
                 }
                 catch (InterruptedException e) { System.out.println("rip 2 "); }
             }
-
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cigar);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tempTextView =  findViewById(R.id.tempTextView);
+        tempTextView = findViewById(R.id.tempTextView);
+        humTextView = findViewById(R.id.humTextView);
 
-        switch1 = findViewById(R.id.switch1);
-        switch1.setOnCheckedChangeListener(this);
-
-        humTextView =  findViewById(R.id.humTextView);
+//        switch1 = findViewById(R.id.switch1);
+//        switch1.setOnCheckedChangeListener(this);
 
         LiveReceiver liveReceiver = new LiveReceiver(6);
         Thread t = new Thread(liveReceiver);
         t.start();
-
+    }
 //        try {
 //            System.out.println("i am here");
 //            System.out.println(mqttHelper.myjson);
@@ -83,52 +85,59 @@ public class CigarActivity extends AppCompatActivity implements CompoundButton.O
 //            e.printStackTrace();
 //        }
 
-    }
+//    @Override
+//    public void onCheckedChanged(CompoundButton compoundButton , boolean b){
+//
+//        if (switch1.isChecked()) {
+//
+//            MyRunnable myRunnable = new MyRunnable(6);
+//            Thread t = new Thread(myRunnable);
+//            t.start();
+//        }
+//        else {
+//            tempTextView.setText("Temperature");
+//            humTextView.setText("Humidity");
+//        }
+//    }
+
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton , boolean b){
-
-        if (switch1.isChecked()) {
-
-            MyRunnable myRunnable = new MyRunnable(6);
-            Thread t = new Thread(myRunnable);
-            t.start();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
-        else {
-            tempTextView.setText("Temperature");
-            humTextView.setText("Humidity");
-        }
-
+        return super.onOptionsItemSelected(item);
     }
 
-    public static void receiveData(JSONObject msg) throws JSONException{
+
+    public static void receiveData(JSONObject msg) throws JSONException {
         System.out.println(msg);
 
-        temp = Integer.valueOf((String)msg.get("CigTemp"));
-        hum = Integer.valueOf((String)msg.get("CigHum"));
+        MyRunnable myRunnable = new MyRunnable(6);
+        Thread t = new Thread(myRunnable);
+        t.start();
 
+        temp = Integer.valueOf((String) msg.get("CigTemp"));
+        hum = Integer.valueOf((String) msg.get("CigHum"));
     }
 
-    public class MyRunnable implements Runnable {
+    public static class MyRunnable implements Runnable {
 
         private int var;
-
-
-        public MyRunnable(int var) {
+        public MyRunnable(int var)
+        {
             this.var = var;
         }
-
         public void run() {
-            while (true) {
-                tempTextView.setText(temp + " degree");
-                humTextView.setText(hum + "%");
-
+            while(true) {
+                tempTextView.setText(temp + " °C");
+                humTextView.setText(hum + " %");
 
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.out.println("rip 2 ");
                 }
+                catch (InterruptedException e) { System.out.println("rip 2 "); }
             }
         }
     }
+
 }

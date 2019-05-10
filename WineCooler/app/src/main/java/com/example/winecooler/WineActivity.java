@@ -1,22 +1,23 @@
 package com.example.winecooler;
 
+import android.app.ActionBar;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import static java.util.Objects.isNull;
 
 
-public class WineActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class WineActivity extends AppCompatActivity  {
 
-    Switch switch1;
+    //Switch switch1;
     static TextView tempTextView;
     static int temp;
 
@@ -47,77 +48,76 @@ public class WineActivity extends AppCompatActivity implements CompoundButton.On
                 }
                 catch (InterruptedException e) { System.out.println("rip 2 "); }
             }
-
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         tempTextView = findViewById(R.id.tempTextView);
-
-        switch1 = findViewById(R.id.switch1);
-        switch1.setOnCheckedChangeListener(this);
         humTextView = findViewById(R.id.humTextView);
+
+
+//        switch1 = findViewById(R.id.switch1);
+//        switch1.setOnCheckedChangeListener(this);
 
         LiveReceiver liveReceiver = new LiveReceiver(6);
         Thread t = new Thread(liveReceiver);
         t.start();
-
-//        try {
-//            System.out.println("i am here");
-//            System.out.println(mqttHelper.myjson);
-//            receiveData(mqttHelper.myjson);
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-        if (switch1.isChecked()) {
-
-            MyRunnable myRunnable = new MyRunnable(6);
-            Thread t = new Thread(myRunnable);
-            t.start();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
-        else {
-            tempTextView.setText("Temperature");
-            humTextView.setText("Humidity");
-        }
+        return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//        if (switch1.isChecked()) {
+//
+//            MyRunnable myRunnable = new MyRunnable(6);
+//            Thread t = new Thread(myRunnable);
+//            t.start();
+//        }
+//        else {
+//            tempTextView.setText("Temperature");
+//            humTextView.setText("Humidity");
+//        }
+//    }
 
     public static void receiveData(JSONObject msg) throws JSONException {
         System.out.println(msg);
 
+        MyRunnable myRunnable = new MyRunnable(6);
+        Thread t = new Thread(myRunnable);
+        t.start();
+
         temp = Integer.valueOf((String) msg.get("WineTemp"));
         hum = Integer.valueOf((String) msg.get("WineHum"));
-
     }
 
-
-    public class MyRunnable implements Runnable {
+    public static class MyRunnable implements Runnable {
 
         private int var;
-
-
-        public MyRunnable(int var) {
+        public MyRunnable(int var)
+        {
             this.var = var;
         }
-
         public void run() {
             while(true) {
-                tempTextView.setText(temp + " degree");
-                humTextView.setText(hum + "%");
-
-
+                tempTextView.setText(temp + " °C");
+                humTextView.setText(hum + " %");
 
                 try {
                     Thread.sleep(1000);
@@ -128,12 +128,7 @@ public class WineActivity extends AppCompatActivity implements CompoundButton.On
     }
 
 
-
 }
-
-
-
-
 
 
 //    public static void receiveData(String msg) throws JSONException, ParseException {

@@ -1,7 +1,6 @@
 package com.example.winecooler;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -11,7 +10,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -45,7 +43,6 @@ public class MqttHelper {
                 Log.w("Mqtt", mqttMessage.toString());
 
                 String payload = new String(mqttMessage.getPayload());
-//
 //                Parse the payload in Json Format
                 JSONObject contObj = new JSONObject(payload);
                 Log.w("Mqtt", String.valueOf(contObj));
@@ -53,13 +50,11 @@ public class MqttHelper {
                 myjson = contObj;
                 CigarActivity.receiveData(contObj);
                 WineActivity.receiveData(contObj);
-
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
                 Log.w("Mqtt", "msg delivered");
-
             }
         });
         connect();
