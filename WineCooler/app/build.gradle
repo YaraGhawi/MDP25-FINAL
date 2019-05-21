@@ -28,5 +28,7 @@ dependencies {
     implementation files('libs/org.eclipse.paho.android.service-1.1.1.jar')
     implementation files('libs/org.eclipse.paho.client.mqttv3-1.1.1.jar')
     implementation 'com.googlecode.json-simple:json-simple:1.1'
+    implementation files('libs/GraphView-4.2.1.jar')
+
 
 }

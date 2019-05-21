@@ -14,6 +14,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.jjoe64.graphview.series.DataPoint;
+
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
 
@@ -29,13 +31,13 @@ public class MqttHelper {
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.w("mqtt", s);
+                Log.w("Mqtt", s);
                 
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
-                Log.w("mqtt", "connection lost");
+                Log.w("Mqtt", "connection lost");
             }
 
             @Override
@@ -49,6 +51,12 @@ public class MqttHelper {
 
                 myjson = contObj;
 
+//                String TemperatureString = mqttMessage.toString();
+//                float TemperatureFloat = Float.parseFloat(TemperatureString);
+//                GraphPage.series.appendData(new DataPoint(i,TemperatureFloat), true, 100);
+//                GraphPage.updateSeries();
+//                MqttHelper.i += 5;
+
                 CigarActivity.receiveData(contObj);
                 WineActivity.receiveData(contObj);
             }
@@ -59,10 +67,6 @@ public class MqttHelper {
             }
         });
         connect();
-    }
-
-    public void setCallback(MqttCallbackExtended callback) {
-        mqttAndroidClient.setCallback(callback);
     }
 
     private void connect(){
@@ -92,12 +96,10 @@ public class MqttHelper {
                 }
             });
 
-
         } catch (MqttException ex){
             ex.printStackTrace();
         }
     }
-
 
     private void subscribeToTopic() {
         try {
@@ -109,17 +111,18 @@ public class MqttHelper {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Subscribed fail!");
+                    Log.w("Mqtt", "Subscribed failed");
                 }
             });
 
         } catch (MqttException ex) {
-            System.err.println("Exception whilst subscribing");
+            System.err.println("Exception");
             ex.printStackTrace();
         }
     }
+}
 
-   /* public void dataPublisher(String dataPublish){
+/* public void dataPublisher(String dataPublish){
         byte[] dataByte = new byte[0];
         try {
             System.out.println("data:" + dataPublish);
@@ -131,4 +134,3 @@ public class MqttHelper {
             e.printStackTrace();
         }
     }*/
-}

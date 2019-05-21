@@ -1,13 +1,8 @@
 package com.example.winecooler;
 
-import android.app.ActionBar;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -42,7 +37,6 @@ public class WineActivity extends AppCompatActivity  {
                 MqttHelper mqttHelper = new MqttHelper(getApplicationContext());
                 try {
                     if (mqttHelper.myjson != null) {
-                        System.out.println(">>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>>>>");
                         receiveData(mqttHelper.myjson);
                     }
                 }
@@ -52,7 +46,7 @@ public class WineActivity extends AppCompatActivity  {
                 try {
                     Thread.sleep(1000);
                 }
-                catch (InterruptedException e) { System.out.println("rip 2 "); }
+                catch (InterruptedException e) { System.out.println("rip"); }
             }
             }
         }
@@ -71,9 +65,6 @@ public class WineActivity extends AppCompatActivity  {
         tempTextView = findViewById(R.id.tempTextView);
         humTextView = findViewById(R.id.humTextView);
 
-
-//        switch1 = findViewById(R.id.switch1);
-//        switch1.setOnCheckedChangeListener(this);
 
         LiveReceiver liveReceiver = new LiveReceiver(6);
         Thread t = new Thread(liveReceiver);
@@ -94,20 +85,6 @@ public class WineActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//
-//        if (switch1.isChecked()) {
-//
-//            MyRunnable myRunnable = new MyRunnable(6);
-//            Thread t = new Thread(myRunnable);
-//            t.start();
-//        }
-//        else {
-//            tempTextView.setText("Temperature");
-//            humTextView.setText("Humidity");
-//        }
-//    }
 
     public static void receiveData(JSONObject msg) throws JSONException {
         System.out.println(msg);
@@ -124,10 +101,12 @@ public class WineActivity extends AppCompatActivity  {
         {
             this.var = var;
         }
+
         public void run() {
             while(state) {
 
-                System.out.println("----------------- the value of temp is "+temp + " and the value of humidity is "+ hum);
+
+
                 tempTextView.setText(temp + " °C");
                 humTextView.setText(hum + " %");
 
