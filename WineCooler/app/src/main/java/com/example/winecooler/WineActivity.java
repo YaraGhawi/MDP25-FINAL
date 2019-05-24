@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 public class WineActivity extends AppCompatActivity  {
 
-    //Switch switch1;
     static TextView tempTextView;
     static int temp;
 
@@ -104,7 +103,6 @@ public class WineActivity extends AppCompatActivity  {
 
         public void run() {
             while(state) {
-
 
 
                 tempTextView.setText(temp + " °C");
